@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iscrizione Associazione</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Modulo di Iscrizione</h1>
+            <form id="iscrizioneForm">
+                <h2>Domanda di Ammissione a Socio - Freedomtrek</h2>
+                <h3>Dati Anagrafici</h3>
+                <label for="nome_cognome">Nome e Cognome:</label>
+                <input type="text" id="nome_cognome" name="nome_cognome" required>
+                <label for="luogo_nascita">Luogo di Nascita:</label>
+                <input type="text" id="luogo_nascita" name="luogo_nascita" required>
+                <label for="provincia_nascita">Provincia:</label>
+                <input type="text" id="provincia_nascita" name="provincia_nascita" maxlength="2" required>
+                <label for="data_nascita">Data di Nascita:</label>
+                <input type="date" id="data_nascita" name="data_nascita" required>
+                <label for="codice_fiscale">Codice Fiscale:</label>
+                <input type="text" id="codice_fiscale" name="codice_fiscale" required>
+                <h3>Residenza e Recapiti</h3>
+                <label for="indirizzo">Indirizzo (Via/Corso/Piazza):</label>
+                <input type="text" id="indirizzo" name="indirizzo" required>
+                <label for="numero_civico">Numero:</label>
+                <input type="text" id="numero_civico" name="numero_civico" required>
+                <label for="citta">Città:</label>
+                <input type="text" id="citta" name="citta" required>
+                <label for="provincia">Provincia:</label>
+                <input type="text" id="provincia" name="provincia" maxlength="2" required>
+                <label for="cap">CAP:</label>
+                <input type="text" id="cap" name="cap" maxlength="5" required>
+                <label for="telefono">Telefono:</label>
+                <input type="tel" id="telefono" name="telefono">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+                <h3>Modalità di pagamento della quota</h3>
+                <select id="pagamento" name="pagamento" required>
+                    <option value="Contanti">Contanti</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="Bonifico Bancario">Bonifico Bancario</option>
+                </select>
+                <h3>Informativa Privacy e Trattamento Dati (GDPR)</h3>
+                <p>Il sottoscritto, ricevuta l'informativa ai sensi dell'art. 13 del D.Lgs. 196/2003 e del Regolamento (UE) 2016/679:</p>
+                <label><input type="checkbox" id="privacy1" name="privacy1" required> Acconsente al trattamento dei dati personali per gli scopi statutari e per l'utilizzo dei contatti (telefono, e-mail, social) per comunicazioni associative.</label>
+                <label><input type="checkbox" id="privacy2" name="privacy2" required> Acconsente alla comunicazione dei dati agli enti con cui l'associazione collabora per obblighi di legge o statutari.</label>
+                <button type="submit">Invia Iscrizione</button>
+            </form>
+        <div id="successo" style="display:none; color:green; margin-top:20px;">Iscrizione inviata con successo!</div>
+        <div id="errore" style="display:none; color:red; margin-top:20px;">Errore nell'invio. Riprova.</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
