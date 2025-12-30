@@ -51,6 +51,16 @@ document.getElementById('iscrizioneForm').addEventListener('submit', function(e)
     const marginX = 20;
     let y = 20;
 
+    // Funzione per convertire data in formato europeo
+    const formatDataEuropea = (dataIso) => {
+        if (!dataIso) return '';
+        const [anno, mese, giorno] = dataIso.split('-');
+        return `${giorno}/${mese}/${anno}`;
+    };
+
+    // Converti la data in formato europeo
+    const data_nascita_formattata = formatDataEuropea(data_nascita);
+
     // --- 1. TITOLO PRINCIPALE ---
     doc.setFontSize(16);
     doc.setFont("helvetica", "bold");
@@ -88,7 +98,7 @@ y += 15; // Spazio prima di "Il sottoscritto..."
             const lineSpacing = 8;
             doc.text(`Il/La sottoscritto/a: ${nome_cognome}`, marginX, y);
             y += lineSpacing;
-            doc.text(`nato/a a: ${luogo_nascita} il: ${data_nascita} Prov: ${provincia_nascita}`, marginX, y);
+            doc.text(`nato/a a: ${luogo_nascita} il: ${data_nascita_formattata} Prov: ${provincia_nascita}`, marginX, y);
             y += lineSpacing;
             doc.text(`C.F.: ${codice_fiscale}`, marginX, y);
             y += lineSpacing;
@@ -152,9 +162,6 @@ y += 15; // Spazio prima di "Il sottoscritto..."
 
             // Invia email con EmailJS
             const templateParams = {
-                to_email: 'freedomtrekaps23@gmail.com',
-                from_name: nome_cognome,
-                user_email: email,
                 nome_cognome,
                 luogo_nascita,
                 provincia_nascita,
@@ -166,10 +173,10 @@ y += 15; // Spazio prima di "Il sottoscritto..."
                 provincia,
                 cap,
                 telefono,
+                email,
                 pagamento,
                 privacy1,
-                privacy2,
-                message: `Nuova iscrizione ricevuta da ${nome_cognome} (${email})`
+                privacy2
             };
 
             console.log('Invio email con parametri:', templateParams);
