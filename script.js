@@ -160,38 +160,44 @@ y += 15; // Spazio prima di "Il sottoscritto..."
             // Salva e scarica il PDF
             doc.save("Domanda_Ammissione_Freedomtrek.pdf");
 
-            // Invia email con JotForm
-            const formData = new FormData();
-            formData.append('nome_cognome', nome_cognome);
-            formData.append('luogo_nascita', luogo_nascita);
-            formData.append('provincia_nascita', provincia_nascita);
-            formData.append('data_nascita', data_nascita);
-            formData.append('codice_fiscale', codice_fiscale);
-            formData.append('indirizzo', indirizzo);
-            formData.append('numero_civico', numero_civico);
-            formData.append('citta', citta);
-            formData.append('provincia', provincia);
-            formData.append('cap', cap);
-            formData.append('telefono', telefono);
-            formData.append('email', email);
-            formData.append('pagamento', pagamento);
-            formData.append('privacy1', privacy1);
-            formData.append('privacy2', privacy2);
+            // Invia email con Formspree
+            const datiForm = {
+                'Nome e Cognome': nome_cognome,
+                'Luogo di Nascita': luogo_nascita,
+                'Provincia Nascita': provincia_nascita,
+                'Data di Nascita': data_nascita,
+                'Codice Fiscale': codice_fiscale,
+                'Indirizzo': indirizzo,
+                'Numero Civico': numero_civico,
+                'Città': citta,
+                'Provincia': provincia,
+                'CAP': cap,
+                'Telefono': telefono,
+                'email': email,
+                'Metodo Pagamento': pagamento,
+                'Consenso Dati Personali': privacy1,
+                'Consenso Comunicazioni': privacy2,
+                '_replyto': email,
+                '_subject': 'Nuova iscrizione Freedomtrek - ' + nome_cognome
+            };
 
-            console.log('Invio email con JotForm...');
+            console.log('Invio dati a Formspree...');
 
-            fetch('https://submit.jotform.com/submit/253632103874051/', {
+            fetch('https://formspree.io/f/mjgvznkg', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datiForm)
             })
             .then(response => response.json())
             .then(data => {
-                console.log('✅ Form inviato con successo:', data);
+                console.log('✅ Iscrizione inviata con successo:', data);
                 document.getElementById('successo').style.display = 'block';
                 document.getElementById('errore').style.display = 'none';
             })
             .catch(error => {
-                console.error('❌ Errore invio form:', error);
+                console.error('❌ Errore invio:', error);
                 document.getElementById('successo').style.display = 'none';
                 document.getElementById('errore').style.display = 'block';
                 document.getElementById('errore').innerHTML = '<p>Errore: ' + error.message + '</p>';
