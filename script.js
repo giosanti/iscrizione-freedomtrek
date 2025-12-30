@@ -186,21 +186,46 @@ y += 15; // Spazio prima di "Il sottoscritto..."
             fetch('https://formspree.io/f/mjgvznkg', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(datiForm)
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('✅ Iscrizione inviata con successo:', data);
                 document.getElementById('successo').style.display = 'block';
                 document.getElementById('errore').style.display = 'none';
             })
             .catch(error => {
-                console.error('❌ Errore invio:', error);
-                document.getElementById('successo').style.display = 'none';
-                document.getElementById('errore').style.display = 'block';
-                document.getElementById('errore').innerHTML = '<p>Errore: ' + error.message + '</p>';
+                console.error('❌ Errore completo:', error);
+                // Tenta con endpoint alternativo
+                console.log('Tentando endpoint alternativo...');
+                return fetch('https://formspree.io/mjgvznkg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datiForm)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('✅ Endpoint alternativo - Iscrizione inviata:', data);
+                    document.getElementById('successo').style.display = 'block';
+                    document.getElementById('errore').style.display = 'none';
+                })
+                .catch(err => {
+                    console.error('❌ Errore anche con endpoint alternativo:', err);
+                    document.getElementById('successo').style.display = 'none';
+                    document.getElementById('errore').style.display = 'block';
+                    document.getElementById('errore').innerHTML = '<p>Errore invio: ' + err.message + '</p>';
+                });
             });
         }
 
