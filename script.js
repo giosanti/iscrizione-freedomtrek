@@ -160,51 +160,41 @@ y += 15; // Spazio prima di "Il sottoscritto..."
             // Salva e scarica il PDF
             doc.save("Domanda_Ammissione_Freedomtrek.pdf");
 
-            // Invia email con EmailJS
-            const templateParams = {
-                nome_cognome,
-                luogo_nascita,
-                provincia_nascita,
-                data_nascita,
-                codice_fiscale,
-                indirizzo,
-                numero_civico,
-                citta,
-                provincia,
-                cap,
-                telefono,
-                email,
-                pagamento,
-                privacy1,
-                privacy2
-            };
+            // Invia email con JotForm
+            const formData = new FormData();
+            formData.append('nome_cognome', nome_cognome);
+            formData.append('luogo_nascita', luogo_nascita);
+            formData.append('provincia_nascita', provincia_nascita);
+            formData.append('data_nascita', data_nascita);
+            formData.append('codice_fiscale', codice_fiscale);
+            formData.append('indirizzo', indirizzo);
+            formData.append('numero_civico', numero_civico);
+            formData.append('citta', citta);
+            formData.append('provincia', provincia);
+            formData.append('cap', cap);
+            formData.append('telefono', telefono);
+            formData.append('email', email);
+            formData.append('pagamento', pagamento);
+            formData.append('privacy1', privacy1);
+            formData.append('privacy2', privacy2);
 
-            console.log('Invio email con parametri:', templateParams);
+            console.log('Invio email con JotForm...');
 
-            emailjs.send('service_axdmvt7', 'template_gaw3cjq', templateParams)
-            .then(function(response) {
-                console.log('✅ Email inviata con successo:', response);
-                console.log('Response Status:', response.status);
-                console.log('Response Text:', response.text);
-                
-                // Salva i dati nel localStorage come backup
-                localStorage.setItem('ultimoInvio', JSON.stringify({
-                    timestamp: new Date().toISOString(),
-                    dati: templateParams
-                }));
-                
+            fetch('https://submit.jotform.com/submit/253632103874051/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('✅ Form inviato con successo:', data);
                 document.getElementById('successo').style.display = 'block';
                 document.getElementById('errore').style.display = 'none';
-            }, function(error) {
-                console.error('❌ Errore completo:', error);
-                console.error('Status:', error.status);
-                console.error('Text:', error.text);
-                console.error('Object:', JSON.stringify(error));
-                
+            })
+            .catch(error => {
+                console.error('❌ Errore invio form:', error);
                 document.getElementById('successo').style.display = 'none';
                 document.getElementById('errore').style.display = 'block';
-                const errorMsg = error.text || error.message || JSON.stringify(error);
-                document.getElementById('errore').innerHTML = '<p>Errore invio email: ' + errorMsg + '</p><p style="font-size:12px; margin-top:10px;">Controlla la console (F12) per dettagli.</p>';
+                document.getElementById('errore').innerHTML = '<p>Errore: ' + error.message + '</p>';
             });
         }
 
