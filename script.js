@@ -178,7 +178,8 @@ y += 15; // Spazio prima di "Il sottoscritto..."
                 'Consenso Dati Personali': privacy1,
                 'Consenso Comunicazioni': privacy2,
                 '_replyto': email,
-                '_subject': 'Nuova iscrizione Freedomtrek - ' + nome_cognome
+                '_subject': 'Nuova iscrizione Freedomtrek - ' + nome_cognome,
+                '_cc': 'freedomtrek23@gmail.com'
             };
 
             console.log('Invio dati a Formspree...');
